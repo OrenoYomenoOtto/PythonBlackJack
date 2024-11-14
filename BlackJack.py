@@ -26,12 +26,11 @@ class Deck:
         self.deck = list(Card.club) +list(Card.diamond) +list(Card.heart) +list(Card.spade)
 
     def shuffle_deck(self):
-        pass
+        random.shuffle(self.deck)
 
-    def draw_card(self):
-        pass
-
-    
+    def pull_card(self):
+        pulled_card = self.deck.pop(0)
+        return pulled_card
 
 class Rule(metaclass = ABCMeta):
     @abstractmethod
@@ -46,6 +45,10 @@ class Rule(metaclass = ABCMeta):
     def burst(self):
         pass
 
+    @abstractmethod
+    def BlackJack(self):
+        pass
+
 
 class Player(Rule):
     def __init__(self):
@@ -58,4 +61,3 @@ class Dealer(Rule):
 
     def deal(self):
         pass
-
