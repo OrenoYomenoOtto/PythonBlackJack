@@ -7,6 +7,11 @@ from typing import Final, Tuple, List
 from abc import ABCMeta, abstractmethod
 
 
+INITIAL_CHIP: Final[int] = 100
+MIN_RATE: Final[int] = 10
+MAX_RATE: Final[int] = 100
+
+
 class InitialCard(enum.IntEnum):
     A = 1
     J = 11
@@ -52,7 +57,16 @@ class Rule(metaclass = ABCMeta):
 
 class Player(Rule):
     def __init__(self):
-        pass
+        self.__hand = []
+        self.__chip = INITIAL_CHIP
+    
+    @property
+    def get_hand(self):
+        return self.__hand
+    
+    @property
+    def get_hand(self):
+        return self.__chip    
 
 
 class Dealer(Rule):
