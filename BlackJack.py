@@ -7,7 +7,7 @@ from typing import Final, Tuple, List
 from abc import ABCMeta, abstractmethod
 
 
-class InitialCard(enum.Enum):
+class InitialCard(enum.IntEnum):
     A = 1
     J = 11
     Q = 12
@@ -23,8 +23,14 @@ class Card:
 
 class Deck:
     def __init__(self):
-        pass
+        self.deck = list(Card.club) +list(Card.diamond) +list(Card.heart) +list(Card.spade)
 
+    def shuffle_deck(self):
+        random.shuffle(self.deck)
+
+    def pull_card(self):
+        pulled_card = self.deck.pop(0)
+        return pulled_card
 
 class Rule(metaclass = ABCMeta):
     @abstractmethod
@@ -37,6 +43,10 @@ class Rule(metaclass = ABCMeta):
 
     @abstractmethod
     def burst(self):
+        pass
+
+    @abstractmethod
+    def BlackJack(self):
         pass
 
 
