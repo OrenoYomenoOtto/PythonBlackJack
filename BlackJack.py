@@ -19,14 +19,25 @@ class InitialCard(enum.IntEnum):
     K = 13
 
 
+class Suit(enum.Enum):
+    club = enum.auto()
+    diamond = enum.auto()
+    heart = enum.auto()
+    spade = enum.auto()
+
+
 class Card:
-    club: Tuple = (InitialCard.A, 2, 3, 4, 5, 6, 7, 8, 9, 10, InitialCard.J, InitialCard.Q, InitialCard.K)
-    diamond: Tuple = (InitialCard.A, 2, 3, 4, 5, 6, 7, 8, 9, 10, InitialCard.J, InitialCard.Q, InitialCard.K)
-    heart: Tuple = (InitialCard.A, 2, 3, 4, 5, 6, 7, 8, 9, 10, InitialCard.J, InitialCard.Q, InitialCard.K)
-    spade: Tuple = (InitialCard.A, 2, 3, 4, 5, 6, 7, 8, 9, 10, InitialCard.J, InitialCard.Q, InitialCard.K)
+    def __init__(self, number: int, suit: int):
+        self.number = number
+        self.suit = suit
 
 
 class Deck:
+    CARD_NUMBER: Tuple = (InitialCard.A, 2, 3, 4, 5, 6, 7, 8, 9, 10, InitialCard.J, InitialCard.Q, InitialCard.K)
+    CLUB_CARD: Tuple = (Card(number, Suit.club) for number in CARD_NUMBER)
+    DIAMOND_CARD: Tuple = (Card(number, Suit.diamond) for number in CARD_NUMBER)
+    HEART_CARD: Tuple = (Card(number, Suit.heart) for number in CARD_NUMBER)
+    SPADE_CARD: Tuple = (Card(number, Suit.spade) for number in CARD_NUMBER)
     def __init__(self):
         self.deck = list(Card.club) +list(Card.diamond) +list(Card.heart) +list(Card.spade)
 
