@@ -33,40 +33,70 @@ class Deck:
     def shuffle_deck(self):
         random.shuffle(self.deck)
 
-    def pull_card(self):
+    def pull_card(self) -> int:
         pulled_card = self.deck.pop(0)
         return pulled_card
 
-class Rule(metaclass = ABCMeta):
-    @abstractmethod
+
+class Rule():
+    def __init__(self):
+        self.__hand: List = []
+        self.__total = 0
+        self.__hasAce = False
+        self.__isStand = False
+        self.__isBurst = False
+
+    @property
+    def get_hand(self) -> list:
+        return self.__hand
+    
+    @property
+    def get_total(self) -> int:
+        return self.__total
+    
+    @property
+    def get_isStand(self) -> bool:
+        return self.__isStand
+    
+    @property
+    def get_isBurst(self) -> bool:
+        return self.__isBurst
+
     def hit(self):
         pass
     
-    @abstractmethod
     def stand(self):
-        pass
+        self.__isStand = True
 
-    @abstractmethod
+    def Calculate_total(self):
+        total = sum(self.__hand)
+        have_ace_num = self.__hand.count(InitialCard.A)
+        if self.__hasAce == True:
+            while True:
+                if total > 21 and have_ace_num != 0:
+                    total -= 10
+                    have_ace_num -= 1
+                else:
+                    break
+        self.__total = total
+
     def burst(self):
         pass
 
-    @abstractmethod
     def BlackJack(self):
         pass
 
 
 class Player(Rule):
     def __init__(self):
-        self.__hand = []
         self.__chip = INITIAL_CHIP
-    
+
     @property
-    def get_hand(self):
-        return self.__hand
+    def get_chip(self) -> int:
+        return self.__chip
     
-    @property
-    def get_hand(self):
-        return self.__chip    
+    def bet(self, card):
+        pass
 
 
 class Dealer(Rule):
