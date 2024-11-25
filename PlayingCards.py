@@ -21,23 +21,34 @@ class Joker:
 
 class Card:
     def __init__(self, rank: int, suit: Suit) -> None:
-        self.__rank = rank
-        self.__suit = suit
-
-    @property
-    def get_rank(self) -> int:
-        return self.__rank
-    
-    @property
-    def get_suit(self) -> Suit:
-        return self.__suit
+        self.rank: Final[int] = rank
+        self.suit: Final[Suit] = suit
     
 class Deck:
-    Ranks: Tuple = (FaceCard.ACE, 2, 3, 4, 5, 6, 7, 8, 9, 10, FaceCard.JACK, FaceCard.QUEEN, FaceCard.KING)
-    Suits: Tuple = (Suit.SPADE, Suit.CLUB, Suit.HEART, Suit.DIAMOND)
-    Deck: Tuple = ((Card(rank, suit) for rank in Deck.Ranks) for suit in Deck.Suits)
-    def __init__(self, has_joker: bool) -> None:
-        self.__deck = Deck.Deck 
+    RANKS: Tuple = (FaceCard.ACE, 2, 3, 4, 5, 6, 7, 8, 9, 10, FaceCard.JACK, FaceCard.QUEEN, FaceCard.KING)
+    SUITS: Tuple = (Suit.SPADE, Suit.CLUB, Suit.HEART, Suit.DIAMOND)
+    def __init__(self) -> None:
+        self.__deck = [Card(rank, suit) for rank in Deck.RANKS for suit in Deck.SUITS] 
+        self.__has_stack = True
+
+    @property
+    def get_deck(self) -> list:
+        return self.__deck
+    
+    @property
+    def get_has_stack(self) -> bool:
+        return self.__has_stack
 
     def shuffle_deck(self) -> None:
-        self.__deck = random.shuffle(self.__deck)
+        random.shuffle(self.__deck)
+
+    def draw_card(self) -> Card:
+        card = self.__deck.pop()
+        return card
+    
+    def check_stack(self) -> None:
+        if self.count_card_quantity() is 0:
+            self.__has_stack = False
+
+    def count_card_quantity(self) -> int:
+        return len(self.__deck)
