@@ -33,12 +33,17 @@ class Deck:
     RANKS: Tuple = (FaceCard.ACE, 2, 3, 4, 5, 6, 7, 8, 9, 10, FaceCard.JACK, FaceCard.QUEEN, FaceCard.KING)
     SUITS: Tuple = (Suit.SPADE, Suit.CLUB, Suit.HEART, Suit.DIAMOND)
     def __init__(self) -> None:
-        self.__deck = [Card(rank, suit) for rank in Deck.RANKS for suit in Deck.SUITS] 
+        self.__deck = [Card(rank, suit) for rank in Deck.RANKS for suit in Deck.SUITS]
+        self.__deck_rest = len(self.__deck) 
         self.__has_stack = True
 
     @property
     def get_deck(self) -> list:
         return self.__deck
+    
+    @property
+    def get_deck_rest(self) -> int:
+        return self.__deck_rest
     
     @property
     def get_has_stack(self) -> bool:
@@ -48,12 +53,23 @@ class Deck:
         random.shuffle(self.__deck)
 
     def draw_card(self) -> Card:
+        if self.__has_stack == False:
+            raise IndexError("No more card in the deck.")
         card = self.__deck.pop()
+        self.count_card_quantity()
+        self.check_stack()
         return card
     
-    def check_stack(self) -> None:
-        if self.count_card_quantity() == 0:
-            self.__has_stack = False
-
     def count_card_quantity(self) -> int:
-        return len(self.__deck)
+        self.__deck_rest = len(self.__deck)
+    
+    def check_stack(self) -> None:
+        if self.__deck_rest == 0:
+            self.__has_stack = False
+    
+# #テスト
+# tramp = Deck()
+# tramp.shuffle_deck()
+# while tramp.get_has_stack == True:
+#     card = tramp.draw_card()
+#     print(f"[残り {tramp.get_deck_rest}]: {card}")
