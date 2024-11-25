@@ -8,65 +8,125 @@ from abc import ABCMeta, abstractmethod
 
 
 INITIAL_CHIP: Final[int] = 100
+BLACK_JACK: Final[int] = 21
+MIN_ACE: Final[int] = 1
+MAX_ACE: Final[int] = 11
 MIN_RATE: Final[int] = 10
 MAX_RATE: Final[int] = 100
 
-
 class InitialCard(enum.IntEnum):
-    A = 1
-    J = 11
-    Q = 12
-    K = 13
+    A = 11
+    J = 10
+    Q = 10
+    K = 10
+
+
+class Suit(enum.Enum):
+    club = enum.auto()
+    diamond = enum.auto()
+    heart = enum.auto()
+    spade = enum.auto()
 
 
 class Card:
-    club: Tuple = (InitialCard.A, 2, 3, 4, 5, 6, 7, 8, 9, 10, InitialCard.J, InitialCard.Q, InitialCard.K)
-    diamond: Tuple = (InitialCard.A, 2, 3, 4, 5, 6, 7, 8, 9, 10, InitialCard.J, InitialCard.Q, InitialCard.K)
-    heart: Tuple = (InitialCard.A, 2, 3, 4, 5, 6, 7, 8, 9, 10, InitialCard.J, InitialCard.Q, InitialCard.K)
-    spade: Tuple = (InitialCard.A, 2, 3, 4, 5, 6, 7, 8, 9, 10, InitialCard.J, InitialCard.Q, InitialCard.K)
+    def __init__(self, number: int, suit: int):
+        self.__number = number
+        self.__suit = suit
+
+    @property
+    def get_number(self):
+        return self.__number
+    
+    @property
+    def get_suit(self):
+        return self.__suit
 
 
 class Deck:
-    def __init__(self):
-        self.deck = list(Card.club) +list(Card.diamond) +list(Card.heart) +list(Card.spade)
+    CARD_NUMBER: Tuple = (InitialCard.A, 2, 3, 4, 5, 6, 7, 8, 9, 10, InitialCard.J, InitialCard.Q, InitialCard.K)
+    CLUB_CARD: Tuple = (Card(number, Suit.club) for number in CARD_NUMBER)
+    DIAMOND_CARD: Tuple = (Card(number, Suit.diamond) for number in CARD_NUMBER)
+    HEART_CARD: Tuple = (Card(number, Suit.heart) for number in CARD_NUMBER)
+    SPADE_CARD: Tuple = (Card(number, Suit.spade) for number in CARD_NUMBER)
 
-    def shuffle_deck(self):
+    def __init__(self):
+        self.deck = list(Deck.CLUB_CARD) +list(Deck.DIAMOND_CARD) +list(Deck.HEART_CARD) +list(Deck.SPADE_CARD)
+
+    def shuffle_deck(self) -> None:
         random.shuffle(self.deck)
 
-    def pull_card(self):
+    def pull_card(self) -> int:
         pulled_card = self.deck.pop(0)
         return pulled_card
 
-class Rule(metaclass = ABCMeta):
-    @abstractmethod
+
+class Rule():
+    def __init__(self):
+        self.__hand: List = []
+        self.__total = 0
+        self.__hasAce = False
+        self.__isStand = False
+        self.__isBurst = False
+        self.__isBlackJack = False
+
+    @property
+    def get_hand(self) -> list:
+        return self.__hand
+    
+    @property
+    def get_total(self) -> int:
+        return self.__total
+    
+    @property
+    def get_isStand(self) -> bool:
+        return self.__isStand
+    
+    @property
+    def get_isBurst(self) -> bool:
+        return self.__isBurst
+
     def hit(self):
         pass
     
-    @abstractmethod
-    def stand(self):
-        pass
+    def stand(self) -> None:
+        self.__isStand = True
 
-    @abstractmethod
-    def burst(self):
-        pass
+    def burst(self) -> None:
+        if BLACK_JACK < self.__total:
+            self.__isBurst = True
 
-    @abstractmethod
-    def BlackJack(self):
-        pass
+    def BlackJack(self) -> None:
+        if BLACK_JACK == self.__total:
+            self.__isBlackJack = True
+
+    def Calculate_total(self) -> None:
+        total = 0
+        Ace_cards = []
+        for hand in self.__hand:
+            if hand.get_number != InitialCard.A:
+                total += hand.get_number
+            elif hand.get_number == InitialCard.A:
+                Ace_cards.append(hand)
+        if len(Ace_cards) != 0:
+            for hand in Ace_cards:
+                if BLACK_JACK < (self.__total + MAX_ACE):
+                    total += MIN_ACE
+                else:
+                    total += MAX_ACE
+        self.__total = total
+
 
 
 class Player(Rule):
     def __init__(self):
-        self.__hand = []
         self.__chip = INITIAL_CHIP
-    
+
     @property
-    def get_hand(self):
-        return self.__hand
+    def get_chip(self) -> int:
+        return self.__chip
     
-    @property
-    def get_hand(self):
-        return self.__chip    
+    def bet(self, card):
+        pass
 
 
 class Dealer(Rule):
@@ -75,3 +135,6 @@ class Dealer(Rule):
 
     def deal(self):
         pass
+
+deck = Deck()
+print(deck.deck)
