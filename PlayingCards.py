@@ -1,8 +1,9 @@
 # coding:utf-8
 
-from typing import Final, Tuple, Dict
+from typing import Final, List, Tuple, Dict
 from enum import Enum, IntEnum, auto
 import random
+
 
 class Suit(Enum):
     SPADE: Final[int] = auto()
@@ -10,14 +11,17 @@ class Suit(Enum):
     HEART: Final[int] = auto()
     DIAMOND: Final[int] = auto()
 
+
 class FaceCard(IntEnum):
     ACE: Final[int] = 1
     JACK: Final[int] = 11
     QUEEN: Final[int] = 12
     KING: Final[int] = 13
 
+
 class Joker:
     JOKER = None
+
 
 class Card:
     FACE_CARD_NAMES: Dict = {face.value: face.name.capitalize() for face in FaceCard}
@@ -28,12 +32,13 @@ class Card:
     
     def __str__(self) -> str:
         return f"{self.rank_name} of {self.suit.name.capitalize()}"
-    
+
+
 class Deck:
-    RANKS: Tuple = (FaceCard.ACE, 2, 3, 4, 5, 6, 7, 8, 9, 10, FaceCard.JACK, FaceCard.QUEEN, FaceCard.KING)
-    SUITS: Tuple = (Suit.SPADE, Suit.CLUB, Suit.HEART, Suit.DIAMOND)
+    RANKS: Tuple[int] = (FaceCard.ACE, 2, 3, 4, 5, 6, 7, 8, 9, 10, FaceCard.JACK, FaceCard.QUEEN, FaceCard.KING)
+    SUITS: Tuple[Suit] = (Suit.SPADE, Suit.CLUB, Suit.HEART, Suit.DIAMOND)
     def __init__(self) -> None:
-        self.__deck = [Card(rank, suit) for rank in Deck.RANKS for suit in Deck.SUITS]
+        self.__deck: List[Card] = [Card(rank, suit) for rank in Deck.RANKS for suit in Deck.SUITS]
         self.__deck_rest = len(self.__deck) 
         self.__has_stack = True
 
@@ -60,7 +65,7 @@ class Deck:
         self.check_stack()
         return card
     
-    def count_card_quantity(self) -> int:
+    def count_card_quantity(self) -> None:
         self.__deck_rest = len(self.__deck)
     
     def check_stack(self) -> None:
