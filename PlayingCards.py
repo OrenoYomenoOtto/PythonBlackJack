@@ -1,6 +1,6 @@
 # coding:utf-8
 
-from typing import Final, Tuple
+from typing import Final, Tuple, Dict
 from enum import Enum, IntEnum, auto
 import random
 
@@ -20,9 +20,14 @@ class Joker:
     JOKER = None
 
 class Card:
+    FACE_CARD_NAMES: Dict = {face.value: face.name.capitalize() for face in FaceCard}
     def __init__(self, rank: int, suit: Suit) -> None:
         self.rank: Final[int] = rank
         self.suit: Final[Suit] = suit
+        self.rank_name: Final[str] =  Card.FACE_CARD_NAMES.get(self.rank, str(self.rank))
+    
+    def __str__(self) -> str:
+        return f"{self.rank_name} of {self.suit.name.capitalize()}"
     
 class Deck:
     RANKS: Tuple = (FaceCard.ACE, 2, 3, 4, 5, 6, 7, 8, 9, 10, FaceCard.JACK, FaceCard.QUEEN, FaceCard.KING)
@@ -47,7 +52,7 @@ class Deck:
         return card
     
     def check_stack(self) -> None:
-        if self.count_card_quantity() is 0:
+        if self.count_card_quantity() == 0:
             self.__has_stack = False
 
     def count_card_quantity(self) -> int:
