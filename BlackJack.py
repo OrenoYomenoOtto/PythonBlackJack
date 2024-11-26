@@ -67,13 +67,10 @@ class Dealer(Rule):
     def __init__(self):
         pass
 
-    def deal(self):
-        pass
-
-
 
 def main():
-    pass
+    Deck = Cards.Deck()
+
 
 if __name__ == "__main__":
     main()
