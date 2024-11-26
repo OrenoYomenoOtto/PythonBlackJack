@@ -1,7 +1,7 @@
 #coding:utf-8
 
-import enum
 import configparser
+from enum import Enum, auto
 from typing import Final, Tuple, List
 from abc import ABCMeta, abstractmethod
 
@@ -14,6 +14,10 @@ BLACK_JACK_NUMBER: Final[int] = 21
 MIN_RATE: Final[int] = 10
 MAX_RATE: Final[int] = 100
 PLAYER_NUM: Final[int] = 2
+
+class Action_selection(Enum):
+    HIT: Final[int] = auto()
+    STAND: Final[int] = auto()
 
 
 class Rule():
@@ -82,15 +86,17 @@ def main():
             Player.hit()
     #プレイヤーの行動
     while True:
+        fin_counter = 0
         for Player in Players:
-            #TODO次の行動を決める
-            pass
-        #player全員がstandもしくはburstしてるか確認する
-        counter = 0
-        for Player in Players:
+            #playerがstandもしくはburstしていたらpass
             if Player.get_isStand is True or Player.get_isBurst is True:
-                counter += 1
-        if counter == PLAYER_NUM:
+                fin_counter += 1
+                pass
+            #TODO次の行動を決める
+            #TODO hitした場合
+            #TODO standした場合
+        #player全員がstandもしくはburstしてるか確認する
+        if fin_counter == PLAYER_NUM:
             break
     #ディーラーの行動
     while True:
