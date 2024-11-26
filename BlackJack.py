@@ -35,9 +35,14 @@ class Rule():
     @property
     def get_isBurst(self) -> bool:
         return self.__isBurst
+    
+    @property
+    def get_isBlackJack(self) -> bool:
+        return self.__isBlackJack
 
-    def hit(self):
-        pass
+    def hit(self, deck: Cards.Deck) -> None:
+        card = deck.draw_card()
+        self.__hand.append(card)
 
     def stand(self) -> None:
         self.__isStand = True
