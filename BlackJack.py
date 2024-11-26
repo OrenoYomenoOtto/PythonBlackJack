@@ -54,6 +54,18 @@ class Rule():
     def BlackJack(self) -> None:
         if BLACK_JACK_NUMBER == self.__total:
             self.__isBlackJack = True
+            
+    def hands_total_point(self) -> None:
+        total_point = 0
+        for card in self.__hand:
+            if card.rank == Cards.FaceCard.ACE:
+                self.__hasAce = True
+                pass
+            if card.rank >= Cards.FaceCard.JACK:
+                total_point += 10
+            else:
+                total_point += card.rank
+                
 
 
 class Player(Rule):
