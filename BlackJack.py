@@ -101,28 +101,34 @@ class Dealer(Rule):
 def main():
     #各クラスのインスタンス化
     Deck = Cards.Deck()
+    Deck.shuffle_deck()
     Dealer = Dealer()
     Players = [Player() for i in range(PLAYER_NUM)]
 
-    #カードを配る
+    #初手のカードをplayerとdealer配る
     for i in range(2):
-        Dealer.hit()
+        Dealer.hit(Deck)
         for Player in Players:
-            Player.hit()
-    #プレイヤーの行動
-    while True:
-        fin_counter = 0
-        for Player in Players:
-            #playerがstandもしくはburstしていたらpass
+            Player.hit(Deck)
+    
+    for Player in Players:
+        while True:
+            #playerがstandもしくはburstしていたらターンを終わる
             if Player.get_isStand is True or Player.get_isBurst is True:
-                fin_counter += 1
-                pass
+                break
+            # playerがBlackJackした場合はスタンドする
+            elif Player.get_isBlackJack is True:
+                Player.stand()
+                break
             #TODO次の行動を決める
             #TODO hitした場合
+            Player.hit(Deck)
+            Player.hands_total_point()
+            Player.BlackJack()
+            Player.burst()
             #TODO standした場合
-        #player全員がstandもしくはburstしてるか確認する
-        if fin_counter == PLAYER_NUM:
-            break
+            Player.stand()
+
     #ディーラーの行動
     while True:
         pass
