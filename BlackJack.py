@@ -57,15 +57,23 @@ class Rule():
             
     def hands_total_point(self) -> None:
         total_point = 0
+        ace_lst = []
         for card in self.__hand:
             if card.rank == Cards.FaceCard.ACE:
                 self.__hasAce = True
+                ace_lst.append(card)
                 pass
-            if card.rank >= Cards.FaceCard.JACK:
+            elif card.rank == Cards.FaceCard.JACK or card.rank == Cards.FaceCard.QUEEN or card.rank == Cards.FaceCard.KING:
                 total_point += 10
             else:
                 total_point += card.rank
-                
+        if self.__hasAce is True:
+            for card in ace_lst:
+                if total_point < 11:
+                    total_point += 10
+                else:
+                    total_point += 1
+        self.__total = total_point
 
 
 class Player(Rule):
