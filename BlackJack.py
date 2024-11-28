@@ -108,6 +108,7 @@ class Dealer(Rule):
 #TODO 勝利判定
 def judgement(dealer: Dealer, Players: list):
     DEALERS_POINT: Final[int] = dealer.get_total
+    #TODO 引き分けの時の処理を書いていない
     if dealer.get_isBurst:
         for Player in Players:
             if Player.get_stand is True:
