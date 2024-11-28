@@ -32,6 +32,10 @@ class Rule():
     @property
     def get_hand(self) -> list:
         return self.__hand
+    
+    @property
+    def get_total(self) -> int:
+        return self.__total
 
     @property
     def get_isStand(self) -> bool:
@@ -84,10 +88,14 @@ class Rule():
 class Player(Rule):
     def __init__(self):
         self.__chip = INITIAL_CHIP
+        self.__result = False
 
     @property
     def get_chip(self) -> int:
         return self.__chip
+    
+    def won_game(self) -> None:
+        self.__result = True
 
     def bet(self, card):
         pass
@@ -97,13 +105,24 @@ class Dealer(Rule):
     def __init__(self):
         pass
 
+#TODO 勝利判定
+def judgement(dealer: Dealer, Players: list):
+    DEALERS_POINT: Final[int] = dealer.get_total
+    if dealer.get_isBurst:
+        for Player in Players:
+            if Player.get_stand is True:
+                Player.won_game()
+    else:
+        for Player in Players:
+            if DEALERS_POINT  < Player.get_total:
+                Player.won_game()
 
 def main():
     #各クラスのインスタンス化
     Deck = Cards.Deck()
     Deck.shuffle_deck()
     Dealer = Dealer()
-    Players = [Player() for i in range(PLAYER_NUM)]
+    Players: List = [Player() for i in range(PLAYER_NUM)]
 
     #初手のカードをplayerとdealer配る
     for i in range(2):
