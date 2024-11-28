@@ -3,7 +3,6 @@
 import configparser
 from enum import Enum, auto
 from typing import Final, Tuple, List
-from abc import ABCMeta, abstractmethod
 
 import PlayingCards as Cards
 
@@ -18,6 +17,11 @@ PLAYER_NUM: Final[int] = 2
 class Action_selection(Enum):
     HIT: Final[int] = auto()
     STAND: Final[int] = auto()
+
+class Result_condition(Enum):
+    WIN: Final[int] = auto()
+    LOSE: Final[int] = auto()
+    DRAW: Final[int] = auto()
 
 
 class Rule():
@@ -88,16 +92,17 @@ class Rule():
 class Player(Rule):
     def __init__(self):
         self.__chip = INITIAL_CHIP
-        self.__result = False
+        self.__result_condition = None
 
     @property
     def get_chip(self) -> int:
         return self.__chip
     
-    def won_game(self) -> None:
-        self.__result = True
+    @property
+    def get_result_condition(self) -> None:
+        pass
 
-    def bet(self, card):
+    def bet(self):
         pass
 
 
@@ -106,17 +111,29 @@ class Dealer(Rule):
         pass
 
 #TODO 勝利判定
-def judgement(dealer: Dealer, Players: list):
+def judgement(dealer: Dealer, player: Player):
     DEALERS_POINT: Final[int] = dealer.get_total
-    #TODO 引き分けの時の処理を書いていない
-    if dealer.get_isBurst:
-        for Player in Players:
-            if Player.get_stand is True:
-                Player.won_game()
-    else:
-        for Player in Players:
-            if DEALERS_POINT  < Player.get_total:
-                Player.won_game()
+    PLAYERS_POINT: Final[int] = player.get_total
+    DEALERS_BURST_CONDITION: Final[bool] = dealer.get_isBurst
+    PLAYERS_BURST_CONDITION: Final[bool] = player.get_isBurst
+
+    return_judge_condition = None
+
+    if PLAYERS_BURST_CONDITION is True:
+        return_judge_condition = Result_condition().LOSE
+    elif
+    if DEALERS_POINT == PLAYER_POINT :
+#playerが負けの証券
+#- バーストしていた
+#- dealerよりpointが小さかった
+#playerが勝っている場合
+# - 自身がバーストしておらずdealerがバーストしていた
+# - 自身のpointがdealer より大きかった
+#引き分けの場合
+# - お互いに得点が一緒だった(Black_Jackを含む)
+        
+    
+            
 
 def main():
     #各クラスのインスタンス化
