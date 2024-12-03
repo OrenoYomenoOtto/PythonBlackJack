@@ -110,30 +110,22 @@ class Dealer(Rule):
     def __init__(self):
         pass
 
-#TODO 勝利判定
+
 def judgement(dealer: Dealer, player: Player):
     DEALERS_POINT: Final[int] = dealer.get_total
     PLAYERS_POINT: Final[int] = player.get_total
     DEALERS_BURST_CONDITION: Final[bool] = dealer.get_isBurst
     PLAYERS_BURST_CONDITION: Final[bool] = player.get_isBurst
+    judge_condition = None
 
-    return_judge_condition = None
+    if PLAYERS_BURST_CONDITION is True or DEALERS_POINT > PLAYERS_POINT:
+        judge_condition = Result_condition().LOSE
+    elif DEALERS_BURST_CONDITION is True or DEALERS_POINT< PLAYERS_POINT: 
+        judge_condition = Result_condition().WIN
+    elif DEALERS_POINT == PLAYERS_POINT:
+        judge_condition = Result_condition().DRAW
+    return judge_condition
 
-    if PLAYERS_BURST_CONDITION is True:
-        return_judge_condition = Result_condition().LOSE
-    elif
-    if DEALERS_POINT == PLAYER_POINT :
-#playerが負けの証券
-#- バーストしていた
-#- dealerよりpointが小さかった
-#playerが勝っている場合
-# - 自身がバーストしておらずdealerがバーストしていた
-# - 自身のpointがdealer より大きかった
-#引き分けの場合
-# - お互いに得点が一緒だった(Black_Jackを含む)
-        
-    
-            
 
 def main():
     #各クラスのインスタンス化
