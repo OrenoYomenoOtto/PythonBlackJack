@@ -171,8 +171,10 @@ def judgement(dealer: Dealer, player: Player):
 deck = Cards.Deck()
 deck.shuffle_deck()
 player = Player()
-print(player.get_hand)
+for card in player.get_hand:
+    print(card)
 print(deck.get_deck_rest)
 player.hit(deck)
-print(player.get_hand)
+for card in player.get_hand:
+    print(card)
 print(deck.get_deck_rest)

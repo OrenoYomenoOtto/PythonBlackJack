@@ -12,7 +12,7 @@ class Suit(Enum):
     DIAMOND: Final[int] = auto()
 
 
-class FaceCard(IntEnum):
+class Face(IntEnum):
     ACE: Final[int] = 1
     JACK: Final[int] = 11
     QUEEN: Final[int] = 12
@@ -24,7 +24,7 @@ class Joker:
 
 
 class Card:
-    FACE_CARD_NAMES: Dict = {face.value: face.name.capitalize() for face in FaceCard}
+    FACE_CARD_NAMES: Dict = {face.value: face.name.capitalize() for face in Face}
     def __init__(self, rank: int, suit: Suit) -> None:
         self.rank: Final[int] = rank
         self.suit: Final[Suit] = suit
@@ -35,7 +35,7 @@ class Card:
 
 
 class Deck:
-    RANKS: Tuple[int] = (FaceCard.ACE, 2, 3, 4, 5, 6, 7, 8, 9, 10, FaceCard.JACK, FaceCard.QUEEN, FaceCard.KING)
+    RANKS: Tuple[int] = (Face.ACE, 2, 3, 4, 5, 6, 7, 8, 9, 10, Face.JACK, Face.QUEEN, Face.KING)
     SUITS: Tuple[Suit] = (Suit.SPADE, Suit.CLUB, Suit.HEART, Suit.DIAMOND)
     def __init__(self) -> None:
         self.__deck: List[Card] = [Card(rank, suit) for rank in Deck.RANKS for suit in Deck.SUITS]
@@ -65,6 +65,9 @@ class Deck:
         self.check_stack()
         return card
     
+    def show_deck_rest(self) -> None:
+        return f"[残り {self.__deck_rest}枚]"
+    
     def count_card_quantity(self) -> None:
         self.__deck_rest = len(self.__deck)
     
@@ -72,9 +75,10 @@ class Deck:
         if self.__deck_rest == 0:
             self.__has_stack = False
     
-# #テスト
-# tramp = Deck()
-# tramp.shuffle_deck()
-# while tramp.get_has_stack == True:
-#     card = tramp.draw_card()
-#     print(f"[残り {tramp.get_deck_rest}]: {card}")
+
+#テスト
+tramp = Deck()
+tramp.shuffle_deck()
+while tramp.get_has_stack == True:
+    card = tramp.draw_card()
+    print(f"{tramp.show_deck_rest()} : {card}")
