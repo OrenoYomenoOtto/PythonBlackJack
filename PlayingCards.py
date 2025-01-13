@@ -65,6 +65,9 @@ class Deck:
         self.check_stack()
         return card
     
+    def show_deck_rest(self) -> None:
+        return f"[残り {self.__deck_rest}枚]"
+    
     def count_card_quantity(self) -> None:
         self.__deck_rest = len(self.__deck)
     
@@ -78,4 +81,4 @@ tramp = Deck()
 tramp.shuffle_deck()
 while tramp.get_has_stack == True:
     card = tramp.draw_card()
-    print(f"[残り {tramp.get_deck_rest}]: {card}")
+    print(f"{tramp.show_deck_rest()} : {card}")
