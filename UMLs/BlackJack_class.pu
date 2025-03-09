@@ -1,0 +1,52 @@
+//Alt + d でプレビュー
+@startuml
+
+enum Suit{
+    CLUB
+    HEART
+    SPADE
+    DIAMOND
+}
+class Rank{
+    - instance: dict{static} 
+    - name: str
+    - value: int
+    --
+    + __new__(cls, name: str, value: int)
+    + __init__(self, name: str, value: int)
+}
+class Card{
+    - suit :Suit
+    - rank :Rank
+    --
+    + __init__(suit: Suit, rank: Rank)
+    + __str__()
+}
+
+Card *-- Suit
+Card *-- Rank
+
+class Deck{
+    - RANKS: Tuple[Tuple[str, int]]
+    - cards :
+    --
+    + __init__()
+    + shuffle()
+    + draw()
+}
+
+Deck *-- Card
+
+class Player{
+
+}
+class Dealer{
+
+}
+interface rule{
+
+}
+
+
+
+@enduml
