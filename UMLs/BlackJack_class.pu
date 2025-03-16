@@ -7,6 +7,7 @@ enum Suit{
     SPADE
     DIAMOND
 }
+
 class Rank{
     - instance: dict{static} 
     - name: str
@@ -15,6 +16,7 @@ class Rank{
     + __new__(cls, name: str, value: int)
     + __init__(self, name: str, value: int)
 }
+
 class Card{
     - suit :Suit
     - rank :Rank
@@ -27,26 +29,53 @@ Card *-- Suit
 Card *-- Rank
 
 class Deck{
-    - RANKS: Tuple[Tuple[str, int]]
+    + RANKS: Tuple[Tuple[str, int]] {static}
     - cards :
     --
     + __init__()
-    + shuffle()
-    + draw()
+    + void shuffle()
+    + void draw()
 }
 
 Deck *-- Card
 
+interface Rule{
+    --
+    + void Hit()
+    + void Stand()
+}
+
+class PlayerRule{
+
+}
+
+class DealerRule{
+
+}
+
+Rule <|.. PlayerRule
+Rule <|.. DealerRule
+
+class Hand{
+    - cards: List<Card>
+    --
+    + void add_Card()
+}
+
+Hand *-- Card
+
 class Player{
-
+    - rule: Rule
 }
+
 class Dealer{
-
-}
-interface rule{
-
+    - rule: Rule
 }
 
+Player *-- Hand
+Dealer *-- Hand
+Rule o.. Player
+Rule o.. Dealer
 
 
 @enduml
